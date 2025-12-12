@@ -1,0 +1,30 @@
+package com.example.payment_service.controller;
+import com.example.payment_service.dto.PaymentRequest;
+import com.example.payment_service.dto.PaymentResponse;
+import com.example.payment_service.service.PaymentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/v1/payments")
+public class PaymentController {
+
+    private final PaymentService paymentService;
+
+    @Autowired
+    public PaymentController(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
+
+    @PostMapping("/process")
+    public ResponseEntity<PaymentResponse> processPayment(@RequestBody PaymentRequest request) {
+
+        PaymentResponse response = paymentService.processPayment(request);
+
+        return ResponseEntity.ok(response);
+    }
+}
